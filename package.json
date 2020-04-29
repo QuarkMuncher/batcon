@@ -1,0 +1,29 @@
+{
+  "name": "batcon",
+  "description": "batch image conversion tool",
+  "main": "main.js",
+  "version": "0.0.2",
+  "author": "QuarkMuncher",
+  "build": {
+    "appId": "com.electron.batcon",
+    "win": {
+      "target": "portable",
+      "icon": "./icon.png"
+    }
+  },
+  "scripts": {
+    "start": "electron .",
+    "live": "electromon .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder -wl"
+  },
+  "devDependencies": {
+    "electromon": "^1.0.10",
+    "electron": "^8.2.3",
+    "electron-builder": "^22.5.1"
+  },
+  "dependencies": {
+    "electron-updater": "^4.3.1",
+    "jimp": "^0.10.3"
+  }
+}
