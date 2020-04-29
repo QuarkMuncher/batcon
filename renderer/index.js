@@ -1,5 +1,6 @@
 "use strict"
 
+const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 const button = document.querySelector('#button');
 const picsFileArray = [];
@@ -11,7 +12,7 @@ picsElement.addEventListener('dragenter', e => {
 });
 picsElement.addEventListener('dragover', e => {
     e.preventDefault();
-})
+});
 
 // Receiving the dropped files.
 picsElement.addEventListener('drop', e => {
@@ -46,7 +47,7 @@ button.addEventListener('click', () => {
         type: 'button-pressed',
         content: picsFileArray
     });
-})
+});
 
 window.addEventListener('message', e => {
     if (e.data.type === 'img') {
@@ -59,4 +60,27 @@ window.addEventListener('message', e => {
     } else {
         console.log(e.data.type);
     }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+    const notification = document.querySelector('#notification');
+    const message = document.querySelector('#message');
+    //const closeButton = document.querySelector('#close-button');
+    const restartButton = document.querySelector('#restart-button');
+
+    ipcRenderer.on('update_available', () => {
+        ipcRenderer.removeAllListeners('update_available');
+        message.innerText = 'Der er en ny opdatering. den bliver downloaded nu.';
+        notification.classList.remove('hidden');
+    });
+
+    ipcRenderer.on('update_downloaded', () => {
+        ipcRenderer.removeAllListeners('update_downloaded');
+        message.innerText = 'Opdateringen er nu klar til at blive installeret, tryk på genstart for at installere den.';
+        restartButton.classList.remove('disabled');
+    });
+
+    restartButton.addEventListener('click', () => {
+        ipcRenderer.send('restart_app');
+    });
 });

@@ -7,15 +7,19 @@
   "build": {
     "appId": "com.electron.batcon",
     "win": {
-      "target": "portable",
+      "target": "nsis",
       "icon": "./icon.png"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QuarkMuncher/batcon.git"
+  },
   "scripts": {
     "start": "electron .",
-    "live": "electromon .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder -wl"
+    "build": "electron-builder -wl --publish never",
+    "deploy": "electron-builder -wl --publish always"
   },
   "devDependencies": {
     "electromon": "^1.0.10",
@@ -23,6 +27,7 @@
     "electron-builder": "^22.5.1"
   },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "electron-updater": "^4.3.1",
     "jimp": "^0.10.3"
   }

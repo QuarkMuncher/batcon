@@ -1,5 +1,6 @@
 "use strict"
-const { app, dialog, ipcMain } = require('electron');
+const { app, ipcMain } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
 const Window = require('./Window');
 const Converter = require('./Converter');
@@ -12,15 +13,8 @@ function main() {
     let mainWindow = new Window({
         file: 'renderer/index.html'
     });
-    let converter = new Converter();
 
-    //Listen for click event at file dialog
-    ipcMain.on('select-dirs', async () => {
-        const result = await dialog.showOpenDialog(mainWindow, {
-            properties: ['openDirectory']
-        });
-        console.log('directories selected', result.filePaths);
-    });
+    let converter = new Converter();
 
     ipcMain.on('button-pressed', async (event, ...arg) => {
         console.log(typeof arg[0]);
@@ -46,6 +40,21 @@ function main() {
         }
     });
 
+    mainWindow.once('ready-to-show', () => {
+        autoUpdater.checkForUpdatesAndNotify();
+    });
+
+    autoUpdater.on('update-available', () => {
+        mainWindow.webContents.send('update_available');
+    });
+
+    autoUpdater.on('update-downloaded', () => {
+        mainWindow.webContents.send('update_downloaded');
+    });
+
+    ipcMain.on('restart_app', () => {
+        autoUpdater.quitAndInstall();
+    });
 }
 
 app.on('ready', main);
