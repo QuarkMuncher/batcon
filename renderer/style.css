@@ -2,19 +2,24 @@
     box-sizing: border-box;
 }
 
-body {
-    font: caption;
+html, body {
+    margin: 0;
 }
 
-.container {
-    width: 100%;
-    margin: 0 auto;
+html {
+    color: #000;
+}
+
+body {
+    font: caption;
+    padding: 10px;
 }
 
 .button {
     padding: 6px 20px;
-    background-color: #a636ef;
-    border-radius: 25px;
+    color: #fff;
+    background-color: #0275d8;
+    border-radius: 5px;
     border: none;
 }
 
@@ -51,11 +56,17 @@ body {
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+#restart-button {
+    color: #fff;
+    background-color: #0275d8;
+}
+
 .hidden {
     display: none;
 }
 
-.disabled {
+#restart-button.disabled {
     background-color: rgba(238, 238, 238, 0.95);
     color: #808080;
 }
