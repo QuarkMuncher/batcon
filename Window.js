@@ -8,10 +8,7 @@ const defaultProps = {
     show: false,
     webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
-        nodeIntegration: true,
-        enableRemoteModule: false,
-        contextIsolation: true,
-        sandbox: true
+        nodeIntegration: true
     }
 };
 
