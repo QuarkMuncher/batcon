@@ -18,8 +18,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "build": "electron-builder -wl --publish never",
-    "deploy": "electron-builder -wl --publish always"
+    "build": "electron-builder -w --publish never",
+    "deploy": "electron-builder -w --publish always"
   },
   "devDependencies": {
     "electromon": "^1.0.10",
