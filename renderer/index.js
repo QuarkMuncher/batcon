@@ -76,7 +76,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const notification = document.querySelector('#notification');
     const message = document.querySelector('#message');
     const restartButton = document.querySelector('#restart-button');
+    const optionsButton = document.querySelector('#optionsButton');
+    const options = document.querySelector('#options');
 
+    //TODO: Move ipcRenderer processes to preload.
     ipcRenderer.on('update_available', () => {
         ipcRenderer.removeAllListeners('update_available');
         message.innerText = 'Der er en ny opdatering. den bliver downloaded nu.';
@@ -103,5 +106,15 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-    })
+    });
+
+    optionsButton.addEventListener('click', () => {
+        optionsButton.classList.toggle('active');
+        if (options.style.maxHeight) {
+            options.style.maxHeight = null;
+        } else {
+            options.style.maxHeight = `${options.scrollHeight}px`;
+
+        }
+    });
 });
