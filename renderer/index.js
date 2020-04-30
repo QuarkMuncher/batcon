@@ -58,8 +58,9 @@ function updateProgressBar(element, percent) {
 window.addEventListener('message', e => {
     if (e.data.type === 'img') {
         if (e.data.result) {
-            const percent = ( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100;
+            const percent = Math.round(( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100);
             (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
+            console.log(percent);
             updateProgressBar(progressBar, percent);
         }
     }
