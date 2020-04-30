@@ -9,6 +9,8 @@ const defaultProps = {
     show: false,
     maximizable: false,
     resizable: false,
+    center: true,
+    titleBarStyle: 'hidden',
     fullscreenable: false,
     webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
