@@ -4,7 +4,7 @@ const path = require('path');
 
 const defaultProps = {
     width: 600,
-    height: 625,
+    height: 666,
     useContentSize: true,
     show: false,
     maximizable: false,

@@ -2,8 +2,6 @@
 
 const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
-const button = document.querySelector('#button');
-const progressBar = document.querySelector('#progress > div');
 let picsFileArray = [];
 const picsElementChildArray = [];
 
@@ -49,18 +47,12 @@ picsElement.addEventListener('drop', e => {
     }
 });
 
-button.addEventListener('click', () => {
-    button.innerText = 'Converting: 0%';
-    window.postMessage({
-        type: 'button-pressed',
-        content: picsFileArray
-    });
-});
-
 function updateProgressBar(element, percent) {
     element.style.width = `${percent}%`;
 }
 
+const progressBar = document.querySelector('#progress > div');
+const button = document.querySelector('#button');
 window.addEventListener('message', e => {
     if (e.data.type === 'img') {
         if (e.data.result) {
@@ -92,10 +84,6 @@ window.addEventListener('DOMContentLoaded', () => {
         restartButton.classList.remove('disabled');
     });
 
-    restartButton.addEventListener('click', () => {
-        ipcRenderer.send('restart_app');
-    });
-
     deleteButton.addEventListener('click', () => {
         picsFileArray = picsFileArray.filter(pic => {
             if (pic.selected === true) {
@@ -111,10 +99,31 @@ window.addEventListener('DOMContentLoaded', () => {
     optionsButton.addEventListener('click', () => {
         optionsButton.classList.toggle('active');
         if (options.style.maxHeight) {
+            window.postMessage({
+                type: 'options-collapsed',
+            });
             options.style.maxHeight = null;
+            optionsButton.innerHTML = 'Options &#8623';
         } else {
+            window.postMessage({
+                type: 'options-expanded',
+                height: options.scrollHeight,
+            });
             options.style.maxHeight = `${options.scrollHeight}px`;
-
+            optionsButton.innerHTML = 'Options &#8618';
         }
+    });
+
+    restartButton.addEventListener('click', () => {
+        ipcRenderer.send('restart_app');
+    });
+
+
+    button.addEventListener('click', () => {
+        button.innerText = 'Converting: 0%';
+        window.postMessage({
+            type: 'button-pressed',
+            content: picsFileArray
+        });
     });
 });

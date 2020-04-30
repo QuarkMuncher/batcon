@@ -10,12 +10,17 @@ function buttonPressedAction(type, file) {
 
 process.once('loaded', () => {
     window.addEventListener('message', e => {
-        if (e.data.type === 'select-dirs') {
+        const type = e.data.type;
+        if (type === 'select-dirs') {
             ipcRenderer.send('select-dirs');
-        } else if (e.data.type === 'button-pressed') {
+        } else if (type === 'button-pressed') {
             for (let i = 0; i < e.data.content.length; i++) {
                 buttonPressedAction(e.data.type, e.data.content[i]);
             }
+        } else if (type === 'options-expanded') {
+            ipcRenderer.send('options-expanded', e.data.height);
+        } else if (type === 'options-collapsed') {
+            ipcRenderer.send('options-collapsed');
         }
     });
 

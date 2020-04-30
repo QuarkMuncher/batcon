@@ -57,6 +57,20 @@ function main() {
         autoUpdater.quitAndInstall();
     });
 
+    let optionsHeight = 0;
+    ipcMain.on('options-expanded', (event, arg) => {
+        optionsHeight = arg + 6;
+        const height = mainWindow.getSize()[1] + optionsHeight;
+        mainWindow.setSize(600, height, true);
+    });
+
+    ipcMain.on('options-collapsed', () => {
+        const height = mainWindow.getSize()[1] - optionsHeight;
+        mainWindow.resizable = true;
+        mainWindow.setSize(600, height, true);
+        mainWindow.resizable = false;
+    });
+
     mainWindow.resizable = false;
     // Uncomment in production.
     //mainWindow.removeMenu();
