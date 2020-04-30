@@ -40,8 +40,8 @@ function main() {
     });
 
     mainWindow.once('ready-to-show', () => {
-        autoUpdater.checkForUpdatesAndNotify().catch(() => {
-            console.log('something went wrong mate');
+        autoUpdater.checkForUpdatesAndNotify().catch(err => {
+            console.log(err);
         });
     });
 

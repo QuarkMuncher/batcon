@@ -4,7 +4,7 @@ const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 const button = document.querySelector('#button');
 const progressBar = document.querySelector('#progress > div');
-const picsFileArray = [];
+let picsFileArray = [];
 const picsElementChildArray = [];
 
 // Preventing event that block functionality
@@ -66,13 +66,13 @@ window.addEventListener('message', e => {
         if (e.data.result) {
             const percent = Math.round(( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100);
             (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
-            console.log(percent);
             updateProgressBar(progressBar, percent);
         }
     }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+    const deleteButton = document.querySelector('#deleteButtonContainer > div');
     const notification = document.querySelector('#notification');
     const message = document.querySelector('#message');
     const restartButton = document.querySelector('#restart-button');
@@ -92,4 +92,16 @@ window.addEventListener('DOMContentLoaded', () => {
     restartButton.addEventListener('click', () => {
         ipcRenderer.send('restart_app');
     });
+
+    deleteButton.addEventListener('click', () => {
+        picsFileArray = picsFileArray.filter(pic => {
+            if (pic.selected === true) {
+                document.querySelector(`#\\3${pic.id}`).remove();
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+    })
 });
