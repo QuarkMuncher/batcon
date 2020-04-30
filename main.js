@@ -17,7 +17,6 @@ function main() {
     let converter = new Converter();
 
     ipcMain.on('button-pressed', async (event, ...arg) => {
-        console.log(typeof arg[0]);
         const folder = `${arg[0].src.removeLastOf('/')}/resultat/`;
         if (!fs.stat(folder, (err, stats) => { if (!err) return stats.isDirectory() })){
             fs.mkdir(folder, {recursive: true}, err => {

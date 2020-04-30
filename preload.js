@@ -9,11 +9,9 @@ function buttonPressedAction(type, file) {
 }
 
 process.once('loaded', () => {
-    console.log('loaded');
     window.addEventListener('message', e => {
         if (e.data.type === 'select-dirs') {
             ipcRenderer.send('select-dirs');
-            console.log('sent');
         } else if (e.data.type === 'button-pressed') {
             for (let i = 0; i < e.data.content.length; i++) {
                 buttonPressedAction(e.data.type, e.data.content[i]);
@@ -27,7 +25,7 @@ process.once('loaded', () => {
                 type: 'img',
                 file: arg.file,
                 result: arg.result
-            })
+            });
         }
     });
 });

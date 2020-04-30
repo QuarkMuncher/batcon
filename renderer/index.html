@@ -12,11 +12,15 @@
 <h1>Batch photo converter</h1>
 
 <div id="pics"></div>
-<button id="button" class="button">Convert</button>
+
+<div id="progress">
+    <div></div>
+    <button id="button" class="button">Convert</button>
+</div>
 
 <div id="notification" class="hidden">
     <p id="message"></p>
-    <button id="restart-button" onclick="restartApp()" class="disabled">
+    <button id="restart-button" class="disabled">
         Restart
     </button>
 </div>

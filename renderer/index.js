@@ -3,6 +3,7 @@
 const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 const button = document.querySelector('#button');
+const progressBar = document.querySelector('#progress > div');
 const picsFileArray = [];
 const picsElementChildArray = [];
 
@@ -19,10 +20,10 @@ picsElement.addEventListener('drop', e => {
     e.preventDefault();
 
     if (e.dataTransfer.items) {
+        button.innerText = 'Convert';
+        progressBar.style.width = '0';
         for (let i = 0; i < e.dataTransfer.items.length; i++) {
-            console.log('did it!');
             if (e.dataTransfer.items[i].kind === 'file') {
-                console.log(i);
                 const pic = {
                     id: (picsFileArray.length === 0)
                             ? '0'
@@ -43,29 +44,30 @@ picsElement.addEventListener('drop', e => {
 });
 
 button.addEventListener('click', () => {
+    button.innerText = 'Converting: 0%';
     window.postMessage({
         type: 'button-pressed',
         content: picsFileArray
     });
 });
 
+function updateProgressBar(element, percent) {
+    element.style.width = `${percent}%`;
+}
+
 window.addEventListener('message', e => {
     if (e.data.type === 'img') {
-        console.log(typeof e.data.file.id);
         if (e.data.result) {
-            picsElementChildArray.find(el => el.id === e.data.file.id).classList.add('tint-done');
-        } else {
-            picsElementChildArray.find(el => el.id === e.data.file.id).classList.add('tint-failed');
+            const percent = ( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100;
+            (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
+            updateProgressBar(progressBar, percent);
         }
-    } else {
-        console.log(e.data.type);
     }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
     const notification = document.querySelector('#notification');
     const message = document.querySelector('#message');
-    //const closeButton = document.querySelector('#close-button');
     const restartButton = document.querySelector('#restart-button');
 
     ipcRenderer.on('update_available', () => {
