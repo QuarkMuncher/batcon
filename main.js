@@ -1,5 +1,5 @@
 "use strict";
-const { app, ipcMain, Menu } = require('electron');
+const { app, ipcMain } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
 const Window = require('./Window');
@@ -13,11 +13,6 @@ function main() {
     let mainWindow = new Window({
         file: 'renderer/index.html'
     });
-
-    const menu = new Menu([{
-        label: '',
-        submenu: []
-    }]);
 
     let converter = new Converter();
 
@@ -60,9 +55,9 @@ function main() {
         autoUpdater.quitAndInstall();
     });
 
-    Menu.setApplicationMenu(menu);
     mainWindow.resizable = false;
-    mainWindow.removeMenu();
+    // Uncomment in production.
+    //mainWindow.removeMenu();
 
 }
 

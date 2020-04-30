@@ -10,8 +10,10 @@ body {
 h1 { margin-top: 0; }
 
 .picture {
-    width: calc(20% - 6px);
-    margin: 3px;
+    width: calc(20% - 10px);
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 #pics {
