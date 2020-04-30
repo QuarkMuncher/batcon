@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 const { BrowserWindow } = require('electron');
 const path = require('path');
 
@@ -8,7 +8,7 @@ const defaultProps = {
     useContentSize: true,
     show: false,
     maximizable: false,
-    resizable: false,
+    autoHideMenuBar: true,
     center: true,
     titleBarStyle: 'hidden',
     fullscreenable: false,
