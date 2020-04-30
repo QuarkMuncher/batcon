@@ -40,7 +40,9 @@ function main() {
     });
 
     mainWindow.once('ready-to-show', () => {
-        autoUpdater.checkForUpdatesAndNotify();
+        autoUpdater.checkForUpdatesAndNotify().catch(() => {
+            console.log('something went wrong mate');
+        });
     });
 
     autoUpdater.on('update-available', () => {

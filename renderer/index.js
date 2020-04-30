@@ -29,13 +29,19 @@ picsElement.addEventListener('drop', e => {
                             ? '0'
                             : picsFileArray.length.toString(),
                     src: e.dataTransfer.items[i].getAsFile().path,
+                    selected: false,
                 }
 
                 const picElement = document.createElement('img');
                 picsFileArray.push(pic);
                 picElement.src = pic.src;
                 picElement.id = pic.id;
+                picElement.setAttribute('data-selected', 'false');
                 picElement.className = 'picture';
+                picElement.addEventListener('click', e => {
+                    e.target.dataset.selected = 'true';
+                    pic.selected = true;
+                });
                 picsElement.appendChild(picElement);
                 picsElementChildArray.push(picElement);
             }
