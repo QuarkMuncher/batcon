@@ -85,14 +85,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     deleteButton.addEventListener('click', () => {
-        picsFileArray = picsFileArray.filter(pic => {
-            if (pic.selected === true) {
-                document.querySelector(`#\\3${pic.id}`).remove();
-                return false;
-            } else {
-                return true;
-            }
-        });
+        if (picsFileArray.some(pic => pic.selected === true)) {
+            picsFileArray = picsFileArray.filter(pic => {
+                if (pic.selected === true) {
+                    document.querySelector(`#\\3${pic.id}`).remove();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+        } else {
+            picsElement.innerHTML = '';
+            picsFileArray = [];
+        }
 
     });
 
