@@ -5,7 +5,11 @@ const path = require('path');
 const defaultProps = {
     width: 600,
     height: 600,
+    useContentSize: true,
     show: false,
+    maximizable: false,
+    resizable: false,
+    fullscreenable: false,
     webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
         nodeIntegration: true
