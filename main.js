@@ -1,5 +1,5 @@
 "use strict";
-const { app, ipcMain } = require('electron');
+const { app, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
 const Window = require('./Window');
@@ -69,6 +69,14 @@ function main() {
         mainWindow.resizable = true;
         mainWindow.setSize(600, height, true);
         mainWindow.resizable = false;
+    });
+
+    ipcMain.on('select-dir', () => {
+        dialog.showOpenDialog(mainWindow, {
+            properties: ['openFile', 'openDirectory']
+        }).then( result => {
+            console.log(result);
+        });
     });
 
     mainWindow.resizable = false;

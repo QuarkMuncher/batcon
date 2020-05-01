@@ -70,6 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.querySelector('#restart-button');
     const optionsButton = document.querySelector('#optionsButton');
     const options = document.querySelector('#options');
+    const selectFolderButton = document.querySelector('#selectFolderButton');
 
     //TODO: Move ipcRenderer processes to preload.
     ipcRenderer.on('update_available', () => {
@@ -131,4 +132,11 @@ window.addEventListener('DOMContentLoaded', () => {
             content: picsFileArray
         });
     });
+
+    selectFolderButton.addEventListener('click', () => {
+        window.postMessage({
+            type: 'select-dir'
+        });
+    });
+
 });
