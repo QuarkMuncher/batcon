@@ -72,8 +72,8 @@ function main() {
     });
 
     ipcMain.on('select-dir', () => {
-        dialog.showOpenDialog(mainWindow, {
-            properties: ['openFile', 'openDirectory']
+        dialog.showOpenDialog({
+            properties: ['openDirectory']
         }).then( result => {
             console.log(result);
         });
