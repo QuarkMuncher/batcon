@@ -27,4 +27,11 @@ process.once('loaded', () => {
             });
         }
     });
+
+    ipcRenderer.on('selected-dir', (event, arg) => {
+        window.postMessage({
+            type: 'selected-dir',
+            path: arg
+        });
+    })
 });

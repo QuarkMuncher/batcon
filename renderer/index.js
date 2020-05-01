@@ -27,6 +27,9 @@ picsElement.addEventListener('drop', e => {
                             ? '0'
                             : picsFileArray.length.toString(),
                     src: e.dataTransfer.items[i].getAsFile().path,
+                    savePath: ((string, value) => {
+                        return `${string.slice(0, string.lastIndexOf(value))}/resultat`;
+                    })(e.dataTransfer.items[i].getAsFile().path, '/'),
                     selected: false,
                 }
 
@@ -54,11 +57,16 @@ function updateProgressBar(element, percent) {
 const progressBar = document.querySelector('#progress > div');
 const button = document.querySelector('#button');
 window.addEventListener('message', e => {
-    if (e.data.type === 'img') {
+    const type = e.data.type;
+    if (type === 'img') {
         if (e.data.result) {
             const percent = Math.round(( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100);
             (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
             updateProgressBar(progressBar, percent);
+        }
+    } else if (type === 'selected-dir') {
+        for (let i = 0; i <= picsFileArray.length - 1; i++) {
+            picsFileArray[i].savePath = e.data.path;
         }
     }
 });

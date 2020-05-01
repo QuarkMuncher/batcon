@@ -5,7 +5,7 @@ const fs = require('fs');
 const Window = require('./Window');
 const Converter = require('./Converter');
 
-String.prototype.removeLastOf = function (value) {
+String.prototype.removeLastOf = value => {
     return this.slice(0, this.lastIndexOf(value));
 };
 
@@ -17,15 +17,15 @@ function main() {
     let converter = new Converter();
 
     ipcMain.on('button-pressed', async (event, ...arg) => {
-        const folder = `${arg[0].src.removeLastOf('/')}/resultat/`;
-        if (!fs.stat(folder, (err, stats) => { if (!err) return stats.isDirectory() })){
+        const folder = arg[0].savePath;
+        if (!fs.stat(arg[0].savePath, (err, stats) => { if (!err) return stats.isDirectory() })){
             fs.mkdir(folder, {recursive: true}, err => {
                 if (err) {
                     console.error(err);
                 }
             });
         }
-        const result = await converter.imageScaler(arg[0].src, folder);
+        const result = await converter.imageScaler(arg[0]);
         if (result) {
             event.reply('button-pressed-reply', {
                 file: arg[0],
@@ -71,11 +71,11 @@ function main() {
         mainWindow.resizable = false;
     });
 
-    ipcMain.on('select-dir', () => {
+    ipcMain.on('select-dir', (event) => {
         dialog.showOpenDialog({
             properties: ['openDirectory']
         }).then( result => {
-            console.log(result);
+            event.reply('selected-dir', result.filePaths[0]);
         });
     });
 
