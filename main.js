@@ -59,14 +59,23 @@ function main() {
 
     let optionsHeight = 0;
     ipcMain.on('options-expanded', (event, arg) => {
-        optionsHeight = arg + 6;
+        optionsHeight = arg;
         const height = mainWindow.getSize()[1] + optionsHeight;
-        mainWindow.setSize(600, height, true);
+        //console.log(mainWindow.getSize()[1]);
+        //console.log(arg);
+        //console.log(optionsHeight);
+        //console.log(height);
+        mainWindow.setSize(600, height - 10, true);
+        //console.log(height);
+        //console.log(mainWindow.getSize()[1]);
     });
 
     ipcMain.on('options-collapsed', () => {
         const height = mainWindow.getSize()[1] - optionsHeight;
         mainWindow.resizable = true;
+        //console.log(mainWindow.getSize()[1]);
+        //console.log(optionsHeight);
+        //console.log(height);
         mainWindow.setSize(600, height, true);
         mainWindow.resizable = false;
     });
