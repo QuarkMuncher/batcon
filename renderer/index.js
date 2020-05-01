@@ -3,6 +3,7 @@
 const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 let picsFileArray = [];
+let picSavePath;
 const picsElementChildArray = [];
 
 // Preventing event that block functionality
@@ -27,7 +28,7 @@ picsElement.addEventListener('drop', e => {
                             ? '0'
                             : picsFileArray.length.toString(),
                     src: e.dataTransfer.items[i].getAsFile().path,
-                    savePath: ((string, value) => {
+                    savePath: (picSavePath) ? picSavePath :((string, value) => {
                         return `${string.slice(0, string.lastIndexOf(value))}/resultat`;
                     })(e.dataTransfer.items[i].getAsFile().path, '/'),
                     selected: false,
@@ -54,8 +55,10 @@ function updateProgressBar(element, percent) {
     element.style.width = `${percent}%`;
 }
 
+
 const progressBar = document.querySelector('#progress > div');
 const button = document.querySelector('#button');
+
 window.addEventListener('message', e => {
     const type = e.data.type;
     if (type === 'img') {
@@ -65,11 +68,15 @@ window.addEventListener('message', e => {
             updateProgressBar(progressBar, percent);
         }
     } else if (type === 'selected-dir') {
-        for (let i = 0; i <= picsFileArray.length - 1; i++) {
-            picsFileArray[i].savePath = e.data.path;
+        if (e.data.path){
+            for (let i = 0; i <= picsFileArray.length - 1; i++) {
+                picsFileArray[i].savePath = e.data.path;
+            }
+            picSavePath = e.data.path;
         }
     }
 });
+
 
 window.addEventListener('DOMContentLoaded', () => {
     const deleteButton = document.querySelector('#deleteButtonContainer > div');

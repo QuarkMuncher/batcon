@@ -75,6 +75,7 @@ function main() {
         dialog.showOpenDialog({
             properties: ['openDirectory']
         }).then( result => {
+            console.log(result);
             event.reply('selected-dir', result.filePaths[0]);
         });
     });
