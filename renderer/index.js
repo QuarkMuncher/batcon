@@ -29,7 +29,9 @@ picsElement.addEventListener('drop', e => {
                             : picsFileArray.length.toString(),
                     src: e.dataTransfer.items[i].getAsFile().path,
                     savePath: (picSavePath) ? picSavePath :((string, value) => {
-                        return `${string.slice(0, string.lastIndexOf(value))}/resultat`;
+                        const result = `${string.slice(0, string.lastIndexOf(value))}/resultat`;
+                        document.querySelector('#selectFolderContainer > input[type="text"]').setAttribute('value', result);
+                        return result;
                     })(e.dataTransfer.items[i].getAsFile().path, '/'),
                     selected: false,
                 }
@@ -73,6 +75,7 @@ window.addEventListener('message', e => {
                 picsFileArray[i].savePath = e.data.path;
             }
             picSavePath = e.data.path;
+            document.querySelector('#selectFolderContainer > input[type="text"]').setAttribute('value', e.data.path);
         }
     }
 });
@@ -85,7 +88,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.querySelector('#restart-button');
     const optionsButton = document.querySelector('#optionsButton');
     const options = document.querySelector('#options');
-    const selectFolderButton = document.querySelector('#selectFolderButton');
+    const selectFolderButton = document.querySelector('#selectFolderContainer > button');
 
     //TODO: Move ipcRenderer processes to preload.
     ipcRenderer.on('update_available', () => {
