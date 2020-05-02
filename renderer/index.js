@@ -144,11 +144,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     button.addEventListener('click', () => {
-        button.innerText = 'Converting: 0%';
-        window.postMessage({
-            type: 'button-pressed',
-            content: picsFileArray
-        });
+        if (picsFileArray.length > 0) {
+            button.innerText = 'Converting: 0%';
+            window.postMessage({
+                type: 'button-pressed',
+                content: picsFileArray
+            });
+        }
     });
 
     selectFolderButton.addEventListener('click', () => {
