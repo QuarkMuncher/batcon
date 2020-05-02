@@ -1,4 +1,5 @@
-const Jimp = require('jimp');
+//const Jimp = require('jimp');
+const sharp = require('sharp');
 
 class Converter {
 
@@ -7,7 +8,7 @@ class Converter {
      * @param file {Object}
      * @returns {Promise<boolean>}
      */
-    async imageScaler(file) {
+    /*async imageScaler(file) {
         return await Jimp.read(file.src)
             .then(img => {
                 img
@@ -27,9 +28,24 @@ class Converter {
             .catch(() => {
                 return false;
             });
+    }*/
+
+    imageScaler(file) {
+        console.log('we got this far');
+        return sharp(file.src)
+            .resize({
+                width: 1000,
+                height: 1000,
+                fit: 'contain',
+                background: '#fff'
+            })
+            .jpeg({
+                quality: 80
+            })
+            .toFile(`${file.savePath}/${file.src.split('/').pop()}`)
+            .then(info => { console.log(info) })
+            .catch(err => { console.log(`err: ${err}`) });
     }
-
-
 
 }
 

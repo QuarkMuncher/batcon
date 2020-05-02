@@ -16,7 +16,7 @@ function main() {
 
     let converter = new Converter();
 
-    ipcMain.on('button-pressed', async (event, ...arg) => {
+    ipcMain.on('button-pressed', (event, ...arg) => {
         const folder = arg[0].savePath;
         if (!fs.stat(arg[0].savePath, (err, stats) => { if (!err) return stats.isDirectory() })){
             fs.mkdir(folder, {recursive: true}, err => {
@@ -25,7 +25,7 @@ function main() {
                 }
             });
         }
-        const result = await converter.imageScaler(arg[0]);
+        const result = converter.imageScaler(arg[0]);
         if (result) {
             event.reply('button-pressed-reply', {
                 file: arg[0],
