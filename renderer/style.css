@@ -121,16 +121,26 @@ h1 { margin-top: 0; }
 
 #notification {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    top: 0;
+    right: 0;
     width: 200px;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 10px;
     background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: -2px 6px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#notification > * {
+    float: right;
+}
+
+#notification > p {
+    width: 100%;
+    padding: 5px;
+    margin: 0;
 }
 
 #restart-button {
+    padding: 5px;
     color: #fff;
     background-color: #0275d8;
     border: none;
@@ -139,6 +149,7 @@ h1 { margin-top: 0; }
 #restart-button.disabled {
     background-color: rgba(238, 238, 238, 0.95);
     color: #808080;
+    border: none;
 }
 
 .hidden { display: none; }
