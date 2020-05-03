@@ -4,6 +4,7 @@ const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 let picsFileArray = [];
 let picSavePath;
+let pictureFormat = 'jpg';
 const picsElementChildArray = [];
 
 // Preventing event that block functionality
@@ -23,16 +24,18 @@ picsElement.addEventListener('drop', e => {
         progressBar.style.width = '0';
         for (let i = 0; i < e.dataTransfer.items.length; i++) {
             if (e.dataTransfer.items[i].kind === 'file') {
+                const file = e.dataTransfer.items[i].getAsFile().path;
                 const pic = {
                     id: (picsFileArray.length === 0)
                             ? '0'
                             : picsFileArray.length.toString(),
-                    src: e.dataTransfer.items[i].getAsFile().path,
+                    type: pictureFormat,
+                    src: file,
                     savePath: (picSavePath) ? picSavePath :((string, value) => {
                         const result = `${string.slice(0, string.lastIndexOf(value))}/resultat`;
                         document.querySelector('#selectFolderContainer > input[type="text"]').setAttribute('value', result);
                         return result;
-                    })(e.dataTransfer.items[i].getAsFile().path, '/'),
+                    })(file, '/'),
                     selected: false,
                 }
 
@@ -89,6 +92,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const optionsButton = document.querySelector('#optionsButton');
     const options = document.querySelector('#options');
     const selectFolderButton = document.querySelector('#selectFolderContainer > button');
+    const pictureFormatSelect = document.querySelector('#pictureFormat');
 
     //TODO: Move ipcRenderer processes to preload.
     ipcRenderer.on('update_available', () => {
@@ -158,5 +162,9 @@ window.addEventListener('DOMContentLoaded', () => {
             type: 'select-dir'
         });
     });
+
+    pictureFormatSelect.addEventListener('change', () => {
+        pictureFormat = pictureFormatSelect.value;
+    })
 
 });

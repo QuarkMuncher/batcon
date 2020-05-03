@@ -7,7 +7,7 @@ class Converter {
      * Async method for converting and compressing images to a specific standard.
      * @param file {Object}
      * @returns {Promise<boolean>}
-     */
+     */inherits
     /*async imageScaler(file) {
         return await Jimp.read(file.src)
             .then(img => {
@@ -39,12 +39,27 @@ class Converter {
                 fit: 'contain',
                 background: '#fff'
             })
-            .jpeg({
-                quality: 80
-            })
-            .toFile(`${file.savePath}/${file.src.split('/').pop()}`)
-            .then(info => { console.log(info) })
+            .toBuffer()
+            .then(data => this[file.type](file, data))
             .catch(err => { console.log(`err: ${err}`) });
+    }
+
+    jpg(file, buffer) {
+        sharp(buffer)
+            .jpeg({
+                quality: file.resolution
+            })
+            .toFile(`${file.savePath}/${file.src.split('/').pop().split('.').shift()}.${file.type}`)
+            .catch(err => console.log(err));
+    }
+
+    png(file, buffer) {
+        sharp(buffer)
+            .png({
+                quality: file.resolution
+            })
+            .toFile(`${file.savePath}/${file.src.split('/').pop().split('.').shift()}.${file.type}`)
+            .catch(err => console.log(err));
     }
 
 }
