@@ -1,6 +1,9 @@
 "use strict"
 
 const picsElement = document.querySelector('#pics');
+let picDefaultOptions = {
+
+}
 let picsFileArray = [];
 let picSavePath;
 let pictureFormat = 'jpg';
@@ -29,9 +32,14 @@ picsElement.addEventListener('drop', e => {
                             ? '0'
                             : picsFileArray.length.toString(),
                     type: pictureFormat,
+                    size: {
+                        width: 1000,
+                        height: 1000,
+                    },
                     src: file,
                     savePath: (picSavePath) ? picSavePath :((string, value) => {
                         const result = `${string.slice(0, string.lastIndexOf(value))}/resultat`;
+                        picSavePath = result;
                         document.querySelector('#selectFolderContainer > input[type="text"]').setAttribute('value', result);
                         return result;
                     })(file, '/'),
@@ -59,13 +67,19 @@ const progressBar = document.querySelector('#progress > div');
 const button = document.querySelector('#button');
 const notification = document.querySelector('#notification');
 const message = document.querySelector('#message');
+const folderButton = document.querySelector('#folderButton');
 
 window.addEventListener('message', e => {
     const type = e.data.type;
     if (type === 'img') {
         if (e.data.result) {
             const percent = Math.round(( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100);
-            (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
+            if (percent === 100) {
+                button.innerText = 'Done';
+                folderButton.classList.toggle('hidden');
+            } else {
+                button.innerText = `Converting: ${percent}%`
+            }
             progressBar.style.width = `${percent}%`;
         }
     } else if (type === 'selected-dir') {
@@ -92,6 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.querySelector('#restart-button');
     const optionsButton = document.querySelector('#optionsButton');
     const options = document.querySelector('#options');
+    const sizeOpts = document.querySelectorAll('#options .size');
     const selectFolderButton = document.querySelector('#selectFolderContainer > button');
     const pictureFormatSelect = document.querySelector('#pictureFormat');
 
@@ -109,7 +124,9 @@ window.addEventListener('DOMContentLoaded', () => {
             picsElement.innerHTML = '';
             picsFileArray = [];
         }
-
+        progressBar.style.width = '0%';
+        button.innerText = 'Convert';
+        folderButton.classList.toggle('hidden');
     });
 
     optionsButton.addEventListener('click', () => {
@@ -138,8 +155,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     button.addEventListener('click', () => {
+        console.log(sizeOpts);
         if (picsFileArray.length > 0) {
             button.innerText = 'Converting: 0%';
+            for (let i = 0; i < picsFileArray.length; i++) {
+                picsFileArray[i].size.width = parseInt(sizeOpts[0].value);
+                picsFileArray[i].height = parseInt(sizeOpts[1].value);
+            }
             window.postMessage({
                 type: 'button-pressed',
                 content: picsFileArray
@@ -157,4 +179,10 @@ window.addEventListener('DOMContentLoaded', () => {
         pictureFormat = pictureFormatSelect.value;
     })
 
+    folderButton.addEventListener('click', () => {
+        window.postMessage({
+            type: 'open-folder',
+            folder: picSavePath
+        })
+    })
 });

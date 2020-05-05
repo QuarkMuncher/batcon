@@ -1,13 +1,9 @@
 "use strict";
-const { app, ipcMain, dialog } = require('electron');
+const { app, ipcMain, dialog, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
 const Window = require('./Window');
 const Converter = require('./Converter');
-
-String.prototype.removeLastOf = value => {
-    return this.slice(0, this.lastIndexOf(value));
-};
 
 function main() {
     let mainWindow = new Window({
@@ -87,6 +83,10 @@ function main() {
             console.log(result);
             event.reply('selected-dir', result.filePaths[0]);
         });
+    });
+
+    ipcMain.on('open-folder', (event, arg) => {
+        shell.showItemInFolder(`${arg}/f`);
     });
 
     mainWindow.resizable = false;

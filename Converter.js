@@ -34,8 +34,8 @@ class Converter {
         console.log('we got this far');
         return sharp(file.src)
             .resize({
-                width: 1000,
-                height: 1000,
+                width: file.size.width,
+                height: file.size.height,
                 fit: 'contain',
                 background: '#fff'
             })

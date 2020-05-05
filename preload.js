@@ -17,6 +17,8 @@ process.once('loaded', () => {
             ipcRenderer.send('select-dir');
         } else if (type === 'restart-app') {
             ipcRenderer.send('restart_app');
+        } else if (type === 'open-folder') {
+            ipcRenderer.send('open-folder', e.data.folder);
         }
     });
 

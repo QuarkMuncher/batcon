@@ -25,15 +25,20 @@
         <input type="text" placeholder="Path to save images" />
         <button>Select a folder</button>
     </div>
-    <select id="pictureFormat">
+    <label for="pictureFormat">Export as.</label><select id="pictureFormat">
         <option value="png">PNG</option>
         <option selected value="jpg">JPEG</option>
     </select>
+    <div>
+        <input type="text" class="size" placeholder="Width" value="1000">
+        <input type="text" class="size" placeholder="height" value="1000">
+    </div>
 </div>
 
 <div id="progress">
     <div></div>
     <button id="button" class="button">Convert</button>
+    <button id="folderButton" class="button hidden"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M11 5c-1.629 0-2.305-1.058-4-3h-7v20h24v-17h-13z"/></svg></button>
 </div>
 
 <div id="notification" class="hidden">
