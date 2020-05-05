@@ -1,6 +1,5 @@
 "use strict"
 
-const { ipcRenderer } = require('electron');
 const picsElement = document.querySelector('#pics');
 let picsFileArray = [];
 let picSavePath;
@@ -56,13 +55,10 @@ picsElement.addEventListener('drop', e => {
     }
 });
 
-function updateProgressBar(element, percent) {
-    element.style.width = `${percent}%`;
-}
-
-
 const progressBar = document.querySelector('#progress > div');
 const button = document.querySelector('#button');
+const notification = document.querySelector('#notification');
+const message = document.querySelector('#message');
 
 window.addEventListener('message', e => {
     const type = e.data.type;
@@ -70,7 +66,7 @@ window.addEventListener('message', e => {
         if (e.data.result) {
             const percent = Math.round(( ( parseInt(e.data.file.id) + 1 ) / picsFileArray.length ) * 100);
             (percent === 100) ? button.innerText = 'Done' : button.innerText = `Converting: ${percent}%`;
-            updateProgressBar(progressBar, percent);
+            progressBar.style.width = `${percent}%`;
         }
     } else if (type === 'selected-dir') {
         if (e.data.path){
@@ -80,32 +76,24 @@ window.addEventListener('message', e => {
             picSavePath = e.data.path;
             document.querySelector('#selectFolderContainer > input[type="text"]').setAttribute('value', e.data.path);
         }
+    } else if (type === 'update-available') {
+        message.innerText = 'Der er en ny opdatering. den bliver downloaded nu.';
+        notification.classList.remove('hidden');
+    } else if (type === 'update-downloaded') {
+        message.innerText = 'Opdateringen er nu klar til at blive installeret, tryk på genstart for at installere den.';
+        restartButton.classList.remove('disabled');
     }
 });
 
 
 window.addEventListener('DOMContentLoaded', () => {
     const deleteButton = document.querySelector('#deleteButtonContainer > div');
-    const notification = document.querySelector('#notification');
-    const message = document.querySelector('#message');
+
     const restartButton = document.querySelector('#restart-button');
     const optionsButton = document.querySelector('#optionsButton');
     const options = document.querySelector('#options');
     const selectFolderButton = document.querySelector('#selectFolderContainer > button');
     const pictureFormatSelect = document.querySelector('#pictureFormat');
-
-    //TODO: Move ipcRenderer processes to preload.
-    ipcRenderer.on('update_available', () => {
-        ipcRenderer.removeAllListeners('update_available');
-        message.innerText = 'Der er en ny opdatering. den bliver downloaded nu.';
-        notification.classList.remove('hidden');
-    });
-
-    ipcRenderer.on('update_downloaded', () => {
-        ipcRenderer.removeAllListeners('update_downloaded');
-        message.innerText = 'Opdateringen er nu klar til at blive installeret, tryk på genstart for at installere den.';
-        restartButton.classList.remove('disabled');
-    });
 
     deleteButton.addEventListener('click', () => {
         if (picsFileArray.some(pic => pic.selected === true)) {
@@ -143,7 +131,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     restartButton.addEventListener('click', () => {
-        ipcRenderer.send('restart_app');
+        window.postMessage({
+            type: 'restart-app'
+        });
     });
 
 

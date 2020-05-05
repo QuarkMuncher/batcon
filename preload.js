@@ -15,6 +15,8 @@ process.once('loaded', () => {
             ipcRenderer.send('options-collapsed');
         } else if (type === 'select-dir') {
             ipcRenderer.send('select-dir');
+        } else if (type === 'restart-app') {
+            ipcRenderer.send('restart_app');
         }
     });
 
@@ -33,5 +35,19 @@ process.once('loaded', () => {
             type: 'selected-dir',
             path: arg
         });
-    })
+    });
+
+    ipcRenderer.on('update_available', () => {
+        ipcRenderer.removeAllListeners('update_available');
+        window.postMessage({
+            type: 'update-available'
+        });
+    });
+
+    ipcRenderer.on('update_downloaded', () => {
+        ipcRenderer.removeAllListeners('update_downloaded');
+        window.postMessage({
+            type: 'update-downloaded'
+        });
+    });
 });

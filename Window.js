@@ -13,8 +13,7 @@ const defaultProps = {
     titleBarStyle: 'hidden',
     fullscreenable: false,
     webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
-        nodeIntegration: true
+        preload: path.join(__dirname, 'preload.js')
     }
 };
 
