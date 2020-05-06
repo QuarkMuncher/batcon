@@ -31,7 +31,6 @@ class Converter {
     }*/
 
     imageScaler(file) {
-        console.log('we got this far');
         return sharp(file.src)
             .resize({
                 width: file.size.width,

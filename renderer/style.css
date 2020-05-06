@@ -91,6 +91,20 @@ h1 { margin-top: 0; }
     border-radius: 0 5px 5px 0;
 }
 
+#resolutionContainer > * {
+    float: left;
+}
+
+#resolutionContainer > span {
+    text-align: center;
+    width: 10%;
+}
+
+#resolutionContainer > input {
+    margin: 0;
+    width: 90%;
+}
+
 #progress {
     margin-top: 8px;
     position: relative;
@@ -119,7 +133,7 @@ h1 { margin-top: 0; }
     border: none;
 }
 
-#button {
+#convertButton {
     position: absolute;
     left: 0;
     width: 100%;
