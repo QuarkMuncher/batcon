@@ -138,7 +138,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   optionsButton.addEventListener("click", () => {
-    optionsButton.classList.toggle("active");
     if (options.style.maxHeight) {
       window.postMessage({
         type: "options-collapsed",

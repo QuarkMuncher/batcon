@@ -7,6 +7,7 @@ const Converter = require('./Converter');
 
 function main() {
     let mainWindow = new Window({
+        //This file is the entry point for the frontend
         file: 'renderer/index.html'
     });
 
