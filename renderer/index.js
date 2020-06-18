@@ -45,14 +45,16 @@ picsElement.addEventListener("drop", (e) => {
           savePath:
             picSavePath ||
             ((string, value) => {
-              const result = `${string.slice(
-                0,
-                string.lastIndexOf(value)
-              )}/resultat`;
+              const result = `${string.replace(
+                string.replace(/^.*[\\\/]/, ""),
+                ""
+              )}resultat`;
               picSavePath = result;
               document
                 .querySelector('#selectFolderContainer > input[type="text"]')
                 .setAttribute("value", result);
+
+              console.log(result);
               return result;
             })(file, "/"),
         };

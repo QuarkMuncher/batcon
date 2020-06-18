@@ -1,14 +1,13 @@
 //const Jimp = require('jimp');
-const sharp = require('sharp');
+const sharp = require("sharp");
 
 class Converter {
-
-    /**
-     * Async method for converting and compressing images to a specific standard.
-     * @param file {Object}
-     * @returns {Promise<boolean>}
-     */inherits
-    /*async imageScaler(file) {
+  /**
+   * Async method for converting and compressing images to a specific standard.
+   * @param file {Object}
+   * @returns {Promise<boolean>}
+   */ inherits;
+  /*async imageScaler(file) {
         return await Jimp.read(file.src)
             .then(img => {
                 img
@@ -30,37 +29,48 @@ class Converter {
             });
     }*/
 
-    imageScaler(file) {
-        return sharp(file.src)
-            .resize({
-                width: file.size.width,
-                height: file.size.height,
-                fit: 'contain',
-                background: '#fff'
-            })
-            .toBuffer()
-            .then(data => this[file.type](file, data))
-            .catch(err => { console.log(`err: ${err}`) });
-    }
+  imageScaler(file) {
+    return sharp(file.src)
+      .resize({
+        width: file.size.width,
+        height: file.size.height,
+        fit: "contain",
+        background: "#fff",
+      })
+      .toBuffer()
+      .then((data) => this[file.type](file, data))
+      .catch((err) => {
+        console.log(`err: ${err}`);
+      });
+  }
 
-    jpg(file, buffer) {
-        sharp(buffer)
-            .jpeg({
-                quality: file.resolution
-            })
-            .toFile(`${file.savePath}/${file.src.split('/').pop().split('.').shift()}.${file.type}`)
-            .catch(err => console.log(err));
-    }
+  jpg(file, buffer) {
+    sharp(buffer)
+      .flatten({ background: "#fff" })
+      .jpeg({
+        quality: file.resolution,
+      })
+      .toFile(
+        `${file.savePath}/${file.src
+          .replace(/^.*[\\\/]/, "")
+          .split(".")
+          .shift()}.${file.type}`
+      )
+      .catch((err) => console.log(err));
+  }
 
-    png(file, buffer) {
-        sharp(buffer)
-            .png({
-                quality: file.resolution
-            })
-            .toFile(`${file.savePath}/${file.src.split('/').pop().split('.').shift()}.${file.type}`)
-            .catch(err => console.log(err));
-    }
-
+  png(file, buffer) {
+    sharp(buffer)
+      .png({
+        quality: file.resolution,
+      })
+      .toFile(
+        `${file.savePath}/${file.src.split("/").pop().split(".").shift()}.${
+          file.type
+        }`
+      )
+      .catch((err) => console.log(err));
+  }
 }
 
 module.exports = Converter;
