@@ -65,9 +65,10 @@ class Converter {
         quality: file.resolution,
       })
       .toFile(
-        `${file.savePath}/${file.src.split("/").pop().split(".").shift()}.${
-          file.type
-        }`
+        `${file.savePath}/${file.src
+          .replace(/^.*[\\\/]/, "")
+          .split(".")
+          .shift()}.${file.type}`
       )
       .catch((err) => console.log(err));
   }
