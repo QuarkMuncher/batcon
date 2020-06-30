@@ -2,7 +2,7 @@
   "name": "batcon",
   "description": "batch image conversion tool",
   "main": "main.js",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "author": "QuarkMuncher",
   "repository": {
     "type": "git",

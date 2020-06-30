@@ -129,9 +129,13 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         return true;
       });
+      if (picsFileArray.length === 0) {
+        picSavePath = null;
+      }
     } else {
       picsElement.innerHTML = "";
       picsFileArray = [];
+      picSavePath = null;
     }
     progressBar.style.width = "0%";
     convertButton.innerText = "Convert";
