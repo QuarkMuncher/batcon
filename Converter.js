@@ -58,7 +58,8 @@ class Converter {
         `${file.savePath}/${file.src
           .replace(/^.*[\\\/]/, "")
           .split(".")
-          .shift()}.${file.type}`
+          .shift()
+          .replace(/[\s]/g, "_")}.${file.type}`
       )
       .catch((err) => console.log(err));
   }
@@ -72,7 +73,8 @@ class Converter {
         `${file.savePath}/${file.src
           .replace(/^.*[\\\/]/, "")
           .split(".")
-          .shift()}.${file.type}`
+          .shift()
+          .replace(/[\s]/g, "_")}.${file.type}`
       )
       .catch((err) => console.log(err));
   }
