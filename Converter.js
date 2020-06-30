@@ -30,7 +30,9 @@ class Converter {
     }*/
 
   imageScaler(file) {
-    return sharp(file.src)
+    const image = sharp(file.src);
+    return image
+      .flatten({ background: "#fff" })
       .resize({
         width: file.size.width,
         height: file.size.height,
@@ -38,7 +40,9 @@ class Converter {
         background: "#fff",
       })
       .toBuffer()
-      .then((data) => this[file.type](file, data))
+      .then((data) => {
+        this[file.type](file, data);
+      })
       .catch((err) => {
         console.log(`err: ${err}`);
       });

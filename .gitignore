@@ -3,3 +3,4 @@
 /electron-builder.yml
 /update-version.sh
 /update-version-package.sh
+/testfiles/
