@@ -182,7 +182,7 @@ window.addEventListener("DOMContentLoaded", () => {
           width: picDefaultOptions.size.width,
           height: picDefaultOptions.size.height,
         };
-        picsFileArray[i].resolution = picDefaultOptions.resolution;
+        picsFileArray[i].resolution = parseInt(picDefaultOptions.resolution, 10);
         picsFileArray[i].type = picDefaultOptions.type;
       }
       window.postMessage({
