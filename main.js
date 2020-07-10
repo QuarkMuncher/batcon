@@ -1,4 +1,3 @@
-"use strict";
 const { app, ipcMain, dialog, shell } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const fs = require('fs');
@@ -24,15 +23,13 @@ function main() {
         }
         const result = converter.imageScaler(arg[0]);
         if (result) {
-            event.reply('button-pressed-reply', {
-                file: arg[0],
-                result: true
-            });
+            event.reply('button-pressed-reply', { file: arg[0]
+                                                , result: true
+                                                });
         } else {
-            event.reply('button-pressed-reply', {
-                file: arg[0],
-                result: false
-            });
+            event.reply('button-pressed-reply', { file: arg[0]
+                                                , result: false
+                                                });
         }
     });
 
