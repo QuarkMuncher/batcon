@@ -3,7 +3,7 @@ const sharp = require("sharp");
 
 class Converter {
   /**
-   * Async method for converting and compressing images to a specific standard.
+   * Async method for converting and compressing images to a specific standard..
    * @param file {Object}
    * @returns {Promise<boolean>}
    */ inherits;

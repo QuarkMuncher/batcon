@@ -2,22 +2,27 @@
   "name": "batcon",
   "description": "batch image conversion tool",
   "main": "main.js",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "author": "QuarkMuncher",
   "repository": {
     "type": "git",
     "url": "https://github.com/QuarkMuncher/batcon.git"
   },
   "scripts": {
-    "start": "electron .",
+    "start": "electronmon .",
     "pack": "electron-builder --dir",
     "build": "electron-builder -w --publish never",
     "deploy": "electron-builder -w --publish always"
   },
+  "electronmon": {
+    "patterns": [
+      "!test-images/**"
+    ]
+  },
   "devDependencies": {
-    "electromon": "^1.0.10",
     "electron": "^8.2.3",
     "electron-builder": "^22.5.1",
+    "electronmon": "^2.0.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.11.0",
