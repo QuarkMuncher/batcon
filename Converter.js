@@ -1,38 +1,13 @@
 //const Jimp = require('jimp');
 const sharp = require("sharp");
 
+// TODO: Turn into a module
 class Converter {
-  /**
-   * Async method for converting and compressing images to a specific standard..
-   * @param file {Object}
-   * @returns {Promise<boolean>}
-   */ inherits;
-  /*async imageScaler(file) {
-        return await Jimp.read(file.src)
-            .then(img => {
-                img
-                    .background(0xFFFFFFFF)
-                    .contain(1000, 1000, Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_MIDDLE)
-                    .quality(80)
-                    .writeAsync(`${file.savePath}/${file.src.split('/').pop()}`)
-                    .catch(() => {
-                        return false;
-                    });
-                //TODO: Implement functions for assuring jpg output.
-                //TODO: Implement proper compression.
-            })
-            .then(() => {
-                return true;
-            })
-            .catch(() => {
-                return false;
-            });
-    }*/
 
   imageScaler(file) {
     const image = sharp(file.src);
     return image
-      .flatten({ background: "#fff" })
+      .flatten({background: "#fff"})
       .resize({
         width: file.size.width,
         height: file.size.height,
@@ -50,7 +25,7 @@ class Converter {
 
   jpg(file, buffer) {
     sharp(buffer)
-      .flatten({ background: "#fff" })
+      .flatten({background: "#fff"})
       .jpeg({
         quality: file.resolution,
       })
